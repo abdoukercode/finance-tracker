@@ -17,7 +17,7 @@
             <td><%= user_stock.price %></td>
             <% if @user.id == current_user.id %>
             <td>
-                <%= link_to 'Delete', user_stock_path(user_stock), :method=> :delete, :data=> {:confirm=> "Are you sure"}, 
+                <%= link_to 'Delete', user_stock_path(user_stock), :method=> :delete, :data=> {:confirm=> "Hey Are you sure"}, 
                 :class=> "btn btn-xs btn-danger" %>
             </td>
         <% end %>
