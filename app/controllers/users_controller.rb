@@ -10,45 +10,43 @@ class UsersController < ApplicationController
         
     end
 
-   def search
+    def search
 
-@users = User.search(params[:search_param])
+        @users = User.search(params[:search_param])
 
-if @users
+            if @users
 
-@users = current_user.except_current_user(@users)
+                @users = current_user.except_current_user(@users)
 
-render partial: 'friends/lookup'
+                    render partial: 'friends/lookup'
 
-else
+            else
 
-render status: :not_found, nothing: true
+                    render status: :not_found, nothing: true
+            end
+    end
 
-end
+    def add_friend
 
-end
+    @friend = User.find(params[:friend])
 
-def add_friend
+    current_user.friendships.build(friend_id: @friend.id)
 
-@friend = User.find(params[:friend])
+    if current_user.save
 
-current_user.friendships.build(friend_id: @friend.id)
+    redirect_to my_friends_path, notice: "Friend was successfully added."
 
-if current_user.save
+    else
 
-redirect_to my_friends_path, notice: "Friend was successfully added."
+    redirect_to my_friends_path, flash[:error] = "There was an error with adding user as friend."
 
-else
+    end
 
-redirect_to my_friends_path, flash[:error] = "There was an error with adding user as friend."
+    end
+    def show
+        @user = User.find(params[:id])
+        @user_stocks = @user.stocks
 
-end
-
-end
-def show
-    @user = User.find(params[:id])
-    @user_stocks = @user.stocks
-
-end
+    end
 
 end
